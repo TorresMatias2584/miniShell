@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include "lexer.h"
 
 int main(int argc, char *argv[]){
   
@@ -21,13 +22,14 @@ int main(int argc, char *argv[]){
             stream[i+1] = '\0';
             i++;
         }
-        int fd = fork();
-        if(fd == 0){
-            printf("Soy el proceso hijo con fd = %d y el de mi padre es : %d",getpid(),getppid());
+        if(!strcmp(stream, "exit")){ // comando para salir del miniShell
+            free(stream);
+            return 1;
         }
-        printf("%s \n",stream);
+
+
+
         free(stream);
     }
-
     return 0;
 }
