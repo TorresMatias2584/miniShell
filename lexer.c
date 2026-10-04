@@ -1,7 +1,7 @@
 #include "lexer.h"
 
-int lexer(){
-
-
-    return 0;
+Token* lexer(char* comandos){
+    Token *input = malloc(sizeof(Token));
+    
+    return input;
 }
