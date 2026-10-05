@@ -1,4 +1,5 @@
 *.exe
-main
+miniShell
+lexer
 *.bin
 obj/
