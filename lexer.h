@@ -32,8 +32,11 @@ typedef struct
 
 // devuelve un puntero a una lista de tokens. La lista se compone en los items de tokens y un contador de tokens. Un token tiene tipo y el texto de dicho token.
 TokenList *tokenizador(char *input);
+
 void free_token_list(TokenList list);
 
-int clasificadorTipos(Token *token, char *input, int i);
+int clasificadorTipos(Token *token, char *input, int *i);
+
+void mostrarTokens (TokenList *tokens);
 
 #endif

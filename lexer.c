@@ -2,15 +2,15 @@
 
 TokenList *tokenizador(char *input)
 {
-    int cantidad = 2;
-    TokenList *tokens;
+    int cantidad = 10;
+    TokenList *tokens = malloc(sizeof(TokenList));
     tokens->contador = 0;
-    tokens->items = malloc(cantidad * sizeof(tokens));
+    tokens->items = malloc(cantidad * sizeof(Token));
 
     int i = 0;
     while (input[i] != '\0') // mientras no se llegue al final del string
     {
-        if (input[i] != 32)
+        if (input[i] == 32)
         { // omitimos los espacios en blanco
             i++;
             continue;
@@ -23,13 +23,13 @@ TokenList *tokenizador(char *input)
             if (aux == NULL)
             {
                 tokens->contador = -1;
-                // free_token_list(tokens);
+                free_token_list(*tokens);
                 return tokens;
             }
             tokens->items = aux;
         }
 
-        if(clasificadorTipos(tokens->items,input,i))
+        if(clasificadorTipos(&tokens->items[tokens->contador],input,&i)) // revisa si es del tipo '|', '>', '<', '>>'.
         {
             tokens->contador++;
             i++;
@@ -37,8 +37,11 @@ TokenList *tokenizador(char *input)
         }
 
         // detectar las palabras.
+
+
     }
-    printf("%d", tokens->contador);
+    printf("cantidad de tokens: %d \n", tokens->contador);
+    mostrarTokens(tokens);
     return tokens;
 }
 
@@ -55,9 +58,9 @@ void free_token_list(TokenList list)
     free(list.items);
 }
 
-int clasificadorTipos(Token *token, char *input, int i)
+int clasificadorTipos(Token *token, char *input, int *i)
 {
-    switch (input[i])
+    switch (input[*i])
     {
     case '|':
         token->palabra = "|";
@@ -68,10 +71,11 @@ int clasificadorTipos(Token *token, char *input, int i)
         token->type = TOKEN_REDIRECT_OUT;
         break;
     case '>':
-        if (input[i + 1] == '>')
+        if (input[*i + 1] == '>')
         {
             token->palabra = ">>";
             token->type = TOKEN_APPEND;
+            (*i)++;
         }
         else
         {
@@ -83,4 +87,11 @@ int clasificadorTipos(Token *token, char *input, int i)
         return 0; //  falso
     }
     return 1; // verdadero
+}
+
+void mostrarTokens (TokenList *tokens){
+    for(int i = 0; i < tokens->contador; i++)
+    {
+        printf("%s \n",tokens->items[i].palabra);
+    }
 }

@@ -2,12 +2,13 @@
 
 int main(int argc, char *argv[])
 {
-
     while (1)
     {
         char *input = malloc(sizeof(char) * 2);
         if (input == NULL)
+        {   perror("No se pudo reservar memoria para el input");
             return -1;
+        }
         int c, i = 0;
         printf("~$ ");
         while ((c = fgetc(stdin)) != '\n' && c != EOF) // bucle para el ingreso de comandos
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
             char *aux = realloc(input, sizeof(char) * (i + 2));
             if (aux == NULL)
             {
+                perror("No se pudo reservar mas memoria para el ingreso del input. ");
                 free(input);
                 return -1;
             }
@@ -34,6 +36,7 @@ int main(int argc, char *argv[])
         {
             TokenList *command = tokenizador(input);
             exit(0);
+            free_token_list(*command);
         }
         else{
             int estadoDelProcesoHijo;  // estado en el que volvio el hijo.
@@ -43,5 +46,7 @@ int main(int argc, char *argv[])
 
         free(input);
     }
+
+    printf("Terminal Cerrada.");
     return 0;
 }
