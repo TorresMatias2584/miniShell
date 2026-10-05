@@ -34,4 +34,6 @@ typedef struct
 TokenList *tokenizador(char *input);
 void free_token_list(TokenList list);
 
+int clasificadorTipos(Token *token, char *input, int i);
+
 #endif

@@ -29,17 +29,16 @@ TokenList *tokenizador(char *input)
             tokens->items = aux;
         }
 
-        if(clasificadorTipos(&tokens->items[tokens->contador],input[i]))
-        {   
-            tokens->contador++; 
-            i++; 
+        if(clasificadorTipos(tokens->items,input,i))
+        {
+            tokens->contador++;
+            i++;
             continue;
         }
 
-        // detectar las palabras. 
-        
+        // detectar las palabras.
     }
-    
+    printf("%d", tokens->contador);
     return tokens;
 }
 
@@ -56,8 +55,9 @@ void free_token_list(TokenList list)
     free(list.items);
 }
 
-int clasificadorTipos(Token *token,char caracter){
-    switch (caracter)
+int clasificadorTipos(Token *token, char *input, int i)
+{
+    switch (input[i])
     {
     case '|':
         token->palabra = "|";
@@ -68,15 +68,19 @@ int clasificadorTipos(Token *token,char caracter){
         token->type = TOKEN_REDIRECT_OUT;
         break;
     case '>':
-        token->palabra = ">";
-        token->type = TOKEN_REDIRECT_IN;
-        break;
-    case '>>':
-        token->palabra = ">>";
-        token->type = TOKEN_APPEND;
+        if (input[i + 1] == '>')
+        {
+            token->palabra = ">>";
+            token->type = TOKEN_APPEND;
+        }
+        else
+        {
+            token->palabra = ">";
+            token->type = TOKEN_REDIRECT_IN;
+        }
         break;
     default:
-        return 0;   //  falso
+        return 0; //  falso
     }
-    return 1;   // verdadero
+    return 1; // verdadero
 }
