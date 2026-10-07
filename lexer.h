@@ -12,9 +12,13 @@ typedef enum
 {
     TOKEN_WORD,         // palabras (ls, mkdir, etc.)
     TOKEN_PIPE,         // '|'
-    TOKEN_REDIRECT_IN,  // '>'
-    TOKEN_REDIRECT_OUT, // '<'
+    TOKEN_REDIRECT_IN,  // '<'
+    TOKEN_REDIRECT_OUT, // '>'
     TOKEN_APPEND,       // '>>'
+    TOKEN_HERE_DOC,     // '<<'
+    TOKEN_OR,           // '||'
+    TOKEN_AMPERSAND,    // '&'
+    TOKEN_AND,          // '&&'
     TOKEN_EOF           // Fin de la línea
 } TokenType;
 
@@ -38,5 +42,7 @@ void free_token_list(TokenList list);
 int clasificadorTipos(Token *token, char *input, int *i);
 
 void mostrarTokens (TokenList *tokens);
+
+int esOperador(char c);
 
 #endif
